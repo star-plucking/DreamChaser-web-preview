@@ -191,7 +191,7 @@ git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/你的用户名/NeWeb.git
+git remote add origin https://github.com/你的用户名/DreamChaser-web-preview.git
 git push -u origin main
 ```
 
@@ -237,29 +237,54 @@ git commit -m "Add GitHub Actions CI/CD"
 git push origin main
 ```
 
-#### 4. 等待 GitHub Actions 完成
+#### 4. 检查 GitHub Actions 权限设置
+
+1. 进入仓库 **Settings** → **Actions** → **General**
+2. **Workflow permissions** 改为 **Read and write permissions**
+3. 勾选 **Allow GitHub Actions to create and approve pull requests**
+4. 点击 **Save**
+
+#### 5. 等待 GitHub Actions 完成
 
 1. 进入仓库 **Actions** 标签页
-2. 等待 "Deploy to GitHub Pages" 工作流完成（绿色对勾✅）
-3. 这时 `gh-pages` 分支会自动创建
+2. 找到 "Deploy to GitHub Pages" 工作流
+3. 确保它显示 ✅ 绿色对勾（表示成功）
+4. 如果显示 ❌ 红色，点击查看错误日志并修复
 
-#### 5. 配置 GitHub Pages
+#### 6. 配置 GitHub Pages
+
+**只有当 GitHub Actions 成功完成后**，才能看到 `gh-pages` 分支：
 
 1. 进入仓库 **Settings** → **Pages**
 2. **Source** 选择 `Deploy from a branch`
-3. **Branch** 选择 `gh-pages` 和 `/ (root)`（现在会看到这个选项）
-4. 点击 **Save**
+3. **Branch** 下拉菜单选择 `gh-pages`
+4. 文件夹选择 `/ (root)`
+5. 点击 **Save**
 
-#### 6. 访问你的网站
+#### 7. 访问你的网站
 
 GitHub Pages 完成配置后，几分钟内访问：
 ```
-https://你的用户名.github.io/NeWeb/
+https://你的用户名.github.io/DreamChaser-web-preview/
 ```
+
+### 常见问题
+
+**Q: 为什么看不到 gh-pages 分支？**
+- A: GitHub Actions 还没有成功运行。检查 Actions 标签页，查看工作流是否有错误
+
+**Q: GitHub Actions 报错怎么办？**
+- A: 点击工作流详情查看错误日志，常见问题：
+  - Workflow permissions 权限不足（见步骤4）
+  - 包依赖问题（检查 package.json）
+  - 构建失败（运行本地 `npm run build` 测试）
+
+**Q: 已配置 Pages 但网站还是 404？**
+- A: 检查 `vite.config.ts` 中的 `base` 配置是否正确，应为 `/DreamChaser-web-preview/`
 
 ### 配置说明
 
-- ✅ 已在 `vite.config.ts` 中配置 `base: '/NeWeb/'`（改为你的仓库名）
+- ✅ 已在 `vite.config.ts` 中配置 `base: '/DreamChaser-web-preview/'`
 - ✅ 已使用 `createWebHashHistory()` 确保路由正常工作
 - ✅ GitHub Actions 会自动创建和管理 `gh-pages` 分支（无需手动创建）
 - 每次推送到 `main` 分支，GitHub Actions 会自动构建并部署到 `gh-pages` 分支
