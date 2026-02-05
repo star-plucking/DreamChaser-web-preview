@@ -15,7 +15,7 @@ const positions = [
   { key: 'mechanical', icon: '⚙️' },
   { key: 'electrical', icon: '💡' },
   { key: 'vision', icon: '👁️' },
-  { key: 'control', icon: '💻' }
+  { key: 'operation', icon: '💻' }
 ]
 
 const goToWeChat = () => {

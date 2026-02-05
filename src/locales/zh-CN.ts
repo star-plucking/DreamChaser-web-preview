@@ -46,12 +46,12 @@ export default {
     mechanical: '机械组',
     electrical: '电控组',
     vision: '视觉组',
-    operation: '操作组',
+    operation: '硬件组',
     recruitment: '关注公众号',
     mechanicalDesc: '负责机器人结构设计、绘图、加工',
     electricalDesc: '负责机器人电路设计、程序开发',
     visionDesc: '负责机器人视觉算法、图像识别',
-    operationDesc: '负责机器人操控、竖族、策略制定'
+    operationDesc: '负责机器人硬件开发、电路设计、信号调试'
   },
   knowledge: {
     title: '知识库',

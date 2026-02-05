@@ -46,12 +46,12 @@ export default {
     mechanical: 'Mechanical Team',
     electrical: 'Electrical Team',
     vision: 'Vision Team',
-    operation: 'Operation Team',
+    operation: 'Hardware Team',
     recruitment: 'Follow Us',
     mechanicalDesc: 'Robot structure design, drawing, processing',
     electricalDesc: 'Robot circuit design, program development',
     visionDesc: 'Robot vision algorithm, image recognition',
-    operationDesc: 'Robot operation, race, strategy planning'
+    operationDesc: 'Robot hardware development, circuit design, signal debugging'
   },
   knowledge: {
     title: 'KNOWLEDGE BASE',
