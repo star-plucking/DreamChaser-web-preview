@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
 interface Member {
   id: number;
   name: string;
@@ -17,28 +19,28 @@ interface Member {
 const members = ref<Member[]>([
   { 
     id: 1, name: 'Cheng Zhihong', role: 'Captain', group: 'MANAGEMENT', 
-    img: '/imgs/people/3%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E9%99%88%E5%BF%97%E9%B8%BF-%E5%A4%A7%E4%BA%8C.webp',
+    img: withBase('imgs/people/3%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E9%99%88%E5%BF%97%E9%B8%BF-%E5%A4%A7%E4%BA%8C.webp'),
     title: '队长',
     technicalGroup: '电控组',
     description: '具备卓越的领导能力和技术专长，负责团队整体战略规划与执行。'
   },
   { 
     id: 2, name: 'Wang Beizhuo', role: 'Project Manager', group: 'MANAGEMENT', 
-    img: '/imgs/people/1%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E7%8E%8B%E5%80%8D%E5%8D%93-%E5%A4%A7%E4%BA%8C.webp',
+    img: withBase('imgs/people/1%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E7%8E%8B%E5%80%8D%E5%8D%93-%E5%A4%A7%E4%BA%8C.webp'),
     title: '项管',
     technicalGroup: '机械组',
     description: '优秀的项目管理者，协调团队资源与进度，确保项目按时高质量完成。'
   },
   { 
     id: 3, name: 'Jiang Huantong', role: 'Head of the Embedded Software Group', group: 'EMBEDDED SOFTWARE', 
-    img: '/imgs/people/%E5%8C%97%E4%BA%AC%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6_%E4%BA%BA%E5%91%98/%E5%8C%97%E4%BA%AC%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6_%E4%BA%BA%E5%91%98/%E7%A0%94%E5%8F%91%E4%BB%A3%E8%A1%A8/7%E5%8F%B7-%E7%A0%94%E5%8F%91%E4%BB%A3%E8%A1%A8-%E5%A7%9C%E6%AC%A2%E6%A1%90-%E5%A4%A7%E4%BA%8C.webp',
+    img: withBase('imgs/people/%E5%8C%97%E4%BA%AC%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6_%E4%BA%BA%E5%91%98/%E5%8C%97%E4%BA%AC%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6_%E4%BA%BA%E5%91%98/%E7%A0%94%E5%8F%91%E4%BB%A3%E8%A1%A8/7%E5%8F%B7-%E7%A0%94%E5%8F%91%E4%BB%A3%E8%A1%A8-%E5%A7%9C%E6%AC%A2%E6%A1%90-%E5%A4%A7%E4%BA%8C.webp'),
     title: '电控组负责人',
     technicalGroup: '电控组',
     description: '嵌入式软件专家，精通系统架构设计与优化，领导电控组技术研发。Sugar Bro aka 唐哥'
   },
   { 
     id: 4, name: 'Yang Ruixinag', role: 'Head of the Mechanical Group', group: 'MECHANICS', 
-    img: '/imgs/people/4%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E6%9D%A8%E9%94%90%E7%BF%94-%E5%A4%A7%E4%BA%8C.webp',
+    img: withBase('imgs/people/4%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E6%9D%A8%E9%94%90%E7%BF%94-%E5%A4%A7%E4%BA%8C.webp'),
     title: '机械组负责人',
     technicalGroup: '机械组',
     description: '机械设计和加工工艺专家，负责机构优化和可靠性保障。创新意识强，方案执行能力强。'
