@@ -140,7 +140,8 @@ const toggleRobot = (id: number) => {
   border: 1px solid rgba($color-text-dim, 0.2);
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 1.3s cubic-bezier(0.18, 0.98, 0.22, 1);
+  transform-origin: left center;
   will-change: transform, box-shadow;
   
   &:hover {
@@ -157,7 +158,7 @@ const toggleRobot = (id: number) => {
     grid-column: span 2;
     background: rgba($color-primary, 0.05);
     border-color: $color-accent;
-    animation: card-expand 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: card-expand 1.6s cubic-bezier(0.2, 0.9, 0.2, 1);
     
     .robot-visual {
       width: 55%;
@@ -250,15 +251,28 @@ const toggleRobot = (id: number) => {
   }
 }
 
+.features-panel .feature-tag {
+  animation: feature-rise 1.3s cubic-bezier(0.18, 0.98, 0.22, 1) both;
+}
+
+.features-panel .feature-tag:nth-child(1) { animation-delay: 0.08s; }
+.features-panel .feature-tag:nth-child(2) { animation-delay: 0.16s; }
+.features-panel .feature-tag:nth-child(3) { animation-delay: 0.24s; }
+.features-panel .feature-tag:nth-child(4) { animation-delay: 0.32s; }
+.features-panel .feature-tag:nth-child(5) { animation-delay: 0.4s; }
+.features-panel .feature-tag:nth-child(6) { animation-delay: 0.48s; }
+.features-panel .feature-tag:nth-child(7) { animation-delay: 0.56s; }
+.features-panel .feature-tag:nth-child(8) { animation-delay: 0.64s; }
+
 .features-slide-enter-active,
 .features-slide-leave-active {
-  transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 1.3s ease-out, transform 1.3s cubic-bezier(0.18, 0.98, 0.22, 1);
 }
 
 .features-slide-enter-from,
 .features-slide-leave-to {
   opacity: 0;
-  transform: translateX(16px);
+  transform: translateX(14px);
 }
 
 .features-slide-enter-to,
@@ -269,16 +283,29 @@ const toggleRobot = (id: number) => {
 
 @keyframes card-expand {
   0% {
-    transform: scale(0.985);
+    transform: scaleX(0.95) scaleY(0.985);
+    opacity: 0.99;
     box-shadow: 0 0 0 rgba($color-primary, 0);
   }
-  55% {
-    transform: scale(1.005);
-    box-shadow: 0 0 24px rgba($color-primary, 0.22);
+  60% {
+    transform: scaleX(1.003) scaleY(1.002);
+    box-shadow: 0 0 20px rgba($color-primary, 0.2);
   }
   100% {
-    transform: scale(1);
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
     box-shadow: 0 0 18px rgba($color-primary, 0.15);
+  }
+}
+
+@keyframes feature-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 </style>
