@@ -72,6 +72,7 @@ const toggleRobot = (id: number) => {
       tag="div" 
       name="robot-list" 
       class="robots-grid"
+      :class="{ 'has-active': activeRobot !== null }"
     >
       <div 
         v-for="robot in robots" 
@@ -138,6 +139,16 @@ const toggleRobot = (id: number) => {
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
+  transition: all 0.5s;
+}
+
+/* 当有卡片被激活时，锁定其他卡片的状态，防止呼吸效应和乱跳 */
+.robots-grid.has-active .robot-card:not(.active) {
+  flex-grow: 0; /* 禁止填充剩余空间 */
+  flex-basis: 280px; /* 锁定为最小宽度 */
+  max-width: 280px; /* 物理锁定宽度 */
+  border-color: rgba($color-text-dim, 0.1); /* 稍微变暗淡一点，突出主体 */
+  opacity: 0.7; /* 降低非主体卡片的视觉权重 */
 }
 
 /* FLIP 动画类 - 处理列表重排 */
@@ -145,34 +156,42 @@ const toggleRobot = (id: number) => {
   transition: transform 1.2s cubic-bezier(0.18, 0.98, 0.22, 1);
 }
 
+.robot-list-leave-active {
+  position: absolute; /* 确保离开的元素不占位，虽然这里主要是列表重排 */
+}
+
 .robot-card {
   position: relative;
   height: 400px;
+  /* 移除容器本身背景和边框，由内部元素或伪元素接管，或者接受边框瞬变 */
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba($color-text-dim, 0.2);
   overflow: hidden;
   cursor: pointer;
   
-  /* Flex 布局属性 */
-  display: flex; /* 改为 Flex 容器 */
-  flex: 1 1 280px;
+  /* Flex 布局属性 - 移除过渡以启用即时布局计算 + FLIP */
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 280px;
+  min-width: 280px; 
   max-width: 350px;
   
-  /* 统一慢速过渡 */
+  /* 仅保留外观过渡，移除布局属性过渡 */
   transition: 
-    flex-grow 1.2s cubic-bezier(0.18, 0.98, 0.22, 1),
-    max-width 1.2s cubic-bezier(0.18, 0.98, 0.22, 1),
+    background-color 0.4s,
     border-color 0.4s,
     box-shadow 0.4s,
-    transform 0.4s;
+    transform 0.4s; /* transform 用于 hover 效果，FLIP 会覆盖它 */
     
   transform-origin: center center;
-  will-change: flex-grow, max-width, width;
+  /* 移除 layout properties 的 will-change */
+  will-change: transform;
   
   &:hover {
     border-color: $color-primary;
     box-shadow: 0 0 20px rgba($color-primary, 0.2);
-    z-index: 1; 
+    z-index: 10; 
     
     .robot-visual img {
       transform: scale(1.05);
@@ -181,11 +200,13 @@ const toggleRobot = (id: number) => {
   }
   
   &.active {
-    flex-grow: 100;
-    max-width: 800px; /* 限制最大宽度，防止变得过宽 */
+    flex-grow: 10; 
+    flex-basis: 600px; 
+    min-width: 600px; 
+    max-width: 800px;
     background: rgba($color-primary, 0.05);
     border-color: $color-accent;
-    z-index: 2;
+    z-index: 20;
     
     .card-main {
       border-right-color: rgba($color-primary, 0.2);
