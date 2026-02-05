@@ -237,16 +237,22 @@ git commit -m "Add GitHub Actions CI/CD"
 git push origin main
 ```
 
-#### 4. 配置 GitHub Pages
+#### 4. 等待 GitHub Actions 完成
+
+1. 进入仓库 **Actions** 标签页
+2. 等待 "Deploy to GitHub Pages" 工作流完成（绿色对勾✅）
+3. 这时 `gh-pages` 分支会自动创建
+
+#### 5. 配置 GitHub Pages
 
 1. 进入仓库 **Settings** → **Pages**
 2. **Source** 选择 `Deploy from a branch`
-3. **Branch** 选择 `gh-pages` 和 `/ (root)`
+3. **Branch** 选择 `gh-pages` 和 `/ (root)`（现在会看到这个选项）
 4. 点击 **Save**
 
-#### 5. 等待部署完成
+#### 6. 访问你的网站
 
-GitHub Actions 会自动执行，几分钟后访问：
+GitHub Pages 完成配置后，几分钟内访问：
 ```
 https://你的用户名.github.io/NeWeb/
 ```
@@ -255,6 +261,7 @@ https://你的用户名.github.io/NeWeb/
 
 - ✅ 已在 `vite.config.ts` 中配置 `base: '/NeWeb/'`（改为你的仓库名）
 - ✅ 已使用 `createWebHashHistory()` 确保路由正常工作
+- ✅ GitHub Actions 会自动创建和管理 `gh-pages` 分支（无需手动创建）
 - 每次推送到 `main` 分支，GitHub Actions 会自动构建并部署到 `gh-pages` 分支
 
 ## 注意事项
