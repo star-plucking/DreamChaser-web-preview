@@ -53,6 +53,14 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  user-select: none;
+}
+
+.selectable,
+input,
+textarea,
+[contenteditable='true'] {
+  user-select: text;
 }
 
 a {

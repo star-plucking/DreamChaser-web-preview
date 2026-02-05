@@ -68,7 +68,11 @@ const toggleRobot = (id: number) => {
       <h1 class="page-title">MECHA ARSENAL <span class="count">[{{ robots.length }} UNITS DETECTED]</span></h1>
     </div>
 
-    <div class="robots-grid">
+    <TransitionGroup 
+      tag="div" 
+      name="robot-list" 
+      class="robots-grid"
+    >
       <div 
         v-for="robot in robots" 
         :key="robot.id" 
@@ -76,14 +80,16 @@ const toggleRobot = (id: number) => {
         :class="{ active: activeRobot === robot.id }"
         @click="toggleRobot(robot.id)"
       >
-        <div class="card-bg"></div>
-        <div class="robot-visual">
-          <img :src="robot.img" :alt="robot.name" loading="lazy" />
-        </div>
-        
-        <div class="robot-info">
-          <h2 class="robot-name">{{ robot.name }}</h2>
-          <div class="robot-type">{{ robot.type }}</div>
+        <div class="card-main">
+          <div class="card-bg"></div>
+          <div class="robot-visual">
+            <img :src="robot.img" :alt="robot.name" loading="lazy" />
+          </div>
+          
+          <div class="robot-info">
+            <h2 class="robot-name">{{ robot.name }}</h2>
+            <div class="robot-type">{{ robot.type }}</div>
+          </div>
         </div>
 
         <transition name="features-slide">
@@ -97,7 +103,7 @@ const toggleRobot = (id: number) => {
           </div>
         </transition>
       </div>
-    </div>
+    </TransitionGroup>
   </div>
 </template>
 
@@ -128,9 +134,15 @@ const toggleRobot = (id: number) => {
 }
 
 .robots-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
+  justify-content: center;
+}
+
+/* FLIP 动画类 - 处理列表重排 */
+.robot-list-move {
+  transition: transform 1.2s cubic-bezier(0.18, 0.98, 0.22, 1);
 }
 
 .robot-card {
@@ -140,13 +152,27 @@ const toggleRobot = (id: number) => {
   border: 1px solid rgba($color-text-dim, 0.2);
   overflow: hidden;
   cursor: pointer;
-  transition: all 1.3s cubic-bezier(0.18, 0.98, 0.22, 1);
-  transform-origin: left center;
-  will-change: transform, box-shadow;
+  
+  /* Flex 布局属性 */
+  display: flex; /* 改为 Flex 容器 */
+  flex: 1 1 280px;
+  max-width: 350px;
+  
+  /* 统一慢速过渡 */
+  transition: 
+    flex-grow 1.2s cubic-bezier(0.18, 0.98, 0.22, 1),
+    max-width 1.2s cubic-bezier(0.18, 0.98, 0.22, 1),
+    border-color 0.4s,
+    box-shadow 0.4s,
+    transform 0.4s;
+    
+  transform-origin: center center;
+  will-change: flex-grow, max-width, width;
   
   &:hover {
     border-color: $color-primary;
     box-shadow: 0 0 20px rgba($color-primary, 0.2);
+    z-index: 1; 
     
     .robot-visual img {
       transform: scale(1.05);
@@ -155,22 +181,39 @@ const toggleRobot = (id: number) => {
   }
   
   &.active {
-    grid-column: span 2;
+    flex-grow: 100;
+    max-width: 800px; /* 限制最大宽度，防止变得过宽 */
     background: rgba($color-primary, 0.05);
     border-color: $color-accent;
-    animation: card-expand 1.6s cubic-bezier(0.2, 0.9, 0.2, 1);
+    z-index: 2;
     
-    .robot-visual {
-      width: 55%;
-      justify-content: flex-start;
-      padding-left: 3rem;
+    .card-main {
+      border-right-color: rgba($color-primary, 0.2);
     }
     
+    .robot-visual img {
+        /* 保持图片在激活状态下稳定 */
+         transform: scale(1.05);
+         filter: drop-shadow(0 0 10px rgba($color-primary, 0.5));
+    }
   }
+}
+
+.card-main {
+    position: relative;
+    width: 350px; /* 设定固定理想宽度 */
+    max-width: 100%; /* 允许缩窄以适应小屏幕或未展开状态 */
+    height: 100%;
+    flex-shrink: 0; /* 防止被挤压 */
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid transparent;
+    transition: border-right-color 0.4s;
 }
 
 .robot-visual {
   height: 70%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,15 +223,13 @@ const toggleRobot = (id: number) => {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    transition: 0.3s;
+    transition: 0.8s cubic-bezier(0.18, 0.98, 0.22, 1);
     filter: drop-shadow(0 10px 10px black);
   }
 }
 
 .robot-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  margin-top: auto; /* 推到底部 */
   width: 100%;
   padding: 1.5rem;
   background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
@@ -208,23 +249,24 @@ const toggleRobot = (id: number) => {
 }
 
 .features-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 45%;
+  /* 不再绝对定位，作为 Flex 项目存在 */
+  width: 0; /* 初始宽度 */
+  flex-grow: 1; /* 占据剩余空间 */
   height: 100%;
-  background: rgba(13, 13, 14, 0.95);
-  border-left: 2px solid $color-accent;
-  padding: 2rem 1.5rem;
+  background: rgba(13, 13, 14, 0.6);
+  /* border-left: 2px solid $color-accent; 移动到 active 状态或者 card-main 的右边框 */
+  padding: 0; 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  pointer-events: auto;
+  overflow: hidden; /* 隐藏溢出内容 */
   
   .features-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 2rem 1.5rem; /* Padding移动到内部容器以避免宽度为0时的溢出 */
+    min-width: 300px; /* 防止内容换行 */
   }
   
   .feature-tag {
@@ -251,6 +293,25 @@ const toggleRobot = (id: number) => {
   }
 }
 
+/* 过渡动画 - 抽屉效果 */
+.features-slide-enter-active,
+.features-slide-leave-active {
+  transition: all 1.2s cubic-bezier(0.18, 0.98, 0.22, 1);
+  max-width: 500px; /* 目标最大宽度 */
+}
+
+.features-slide-enter-from,
+.features-slide-leave-to {
+  max-width: 0;
+  opacity: 0;
+}
+
+.features-slide-enter-to,
+.features-slide-leave-from {
+  max-width: 500px;
+  opacity: 1;
+}
+
 .features-panel .feature-tag {
   animation: feature-rise 1.3s cubic-bezier(0.18, 0.98, 0.22, 1) both;
 }
@@ -266,36 +327,19 @@ const toggleRobot = (id: number) => {
 
 .features-slide-enter-active,
 .features-slide-leave-active {
-  transition: opacity 1.3s ease-out, transform 1.3s cubic-bezier(0.18, 0.98, 0.22, 1);
+  transition: opacity 1.3s ease-out, clip-path 1.3s cubic-bezier(0.18, 0.98, 0.22, 1);
 }
 
 .features-slide-enter-from,
 .features-slide-leave-to {
   opacity: 0;
-  transform: translateX(14px);
+  clip-path: inset(0 100% 0 0);
 }
 
 .features-slide-enter-to,
 .features-slide-leave-from {
   opacity: 1;
-  transform: translateX(0);
-}
-
-@keyframes card-expand {
-  0% {
-    transform: scaleX(0.95) scaleY(0.985);
-    opacity: 0.99;
-    box-shadow: 0 0 0 rgba($color-primary, 0);
-  }
-  60% {
-    transform: scaleX(1.003) scaleY(1.002);
-    box-shadow: 0 0 20px rgba($color-primary, 0.2);
-  }
-  100% {
-    transform: scaleX(1) scaleY(1);
-    opacity: 1;
-    box-shadow: 0 0 18px rgba($color-primary, 0.15);
-  }
+  clip-path: inset(0 0 0 0);
 }
 
 @keyframes feature-rise {
