@@ -49,7 +49,7 @@ export default {
     operation: 'Hardware Team',
     recruitment: 'Follow Us',
     mechanicalDesc: 'Robot structure design, drawing, processing',
-    electricalDesc: 'Robot circuit design, program development',
+    electricalDesc: 'Robot embedded program development, control algorithms',
     visionDesc: 'Robot vision algorithm, image recognition',
     operationDesc: 'Robot hardware development, circuit design, signal debugging'
   },

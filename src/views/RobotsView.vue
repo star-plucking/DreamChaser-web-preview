@@ -86,14 +86,16 @@ const toggleRobot = (id: number) => {
           <div class="robot-type">{{ robot.type }}</div>
         </div>
 
-        <div class="features-panel" v-if="activeRobot === robot.id">
-          <div class="features-list">
-            <div v-for="(feature, idx) in robot.features" :key="idx" class="feature-tag">
-              <span class="tag-icon">▸</span>
-              {{ feature }}
+        <transition name="features-slide">
+          <div class="features-panel" v-if="activeRobot === robot.id">
+            <div class="features-list">
+              <div v-for="(feature, idx) in robot.features" :key="idx" class="feature-tag">
+                <span class="tag-icon">▸</span>
+                {{ feature }}
+              </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -138,7 +140,8 @@ const toggleRobot = (id: number) => {
   border: 1px solid rgba($color-text-dim, 0.2);
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, box-shadow;
   
   &:hover {
     border-color: $color-primary;
@@ -154,6 +157,7 @@ const toggleRobot = (id: number) => {
     grid-column: span 2;
     background: rgba($color-primary, 0.05);
     border-color: $color-accent;
+    animation: card-expand 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     
     .robot-visual {
       width: 55%;
@@ -161,10 +165,6 @@ const toggleRobot = (id: number) => {
       padding-left: 3rem;
     }
     
-    .features-panel {
-      opacity: 1;
-      transform: translateX(0);
-    }
   }
 }
 
@@ -218,14 +218,7 @@ const toggleRobot = (id: number) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  opacity: 0;
-  transform: translateX(20px);
-  transition: 0.3s 0.1s;
-  pointer-events: none;
-  
-  .robot-card.active & {
-    pointer-events: auto;
-  }
+  pointer-events: auto;
   
   .features-list {
     display: flex;
@@ -254,6 +247,38 @@ const toggleRobot = (id: number) => {
       color: $color-accent;
       font-size: 1.2rem;
     }
+  }
+}
+
+.features-slide-enter-active,
+.features-slide-leave-active {
+  transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.features-slide-enter-from,
+.features-slide-leave-to {
+  opacity: 0;
+  transform: translateX(16px);
+}
+
+.features-slide-enter-to,
+.features-slide-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@keyframes card-expand {
+  0% {
+    transform: scale(0.985);
+    box-shadow: 0 0 0 rgba($color-primary, 0);
+  }
+  55% {
+    transform: scale(1.005);
+    box-shadow: 0 0 24px rgba($color-primary, 0.22);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 18px rgba($color-primary, 0.15);
   }
 }
 </style>

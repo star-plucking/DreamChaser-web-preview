@@ -49,7 +49,7 @@ export default {
     operation: '硬件组',
     recruitment: '关注公众号',
     mechanicalDesc: '负责机器人结构设计、绘图、加工',
-    electricalDesc: '负责机器人电路设计、程序开发',
+    electricalDesc: '负责机器人嵌入式程序开发控制算法',
     visionDesc: '负责机器人视觉算法、图像识别',
     operationDesc: '负责机器人硬件开发、电路设计、信号调试'
   },
