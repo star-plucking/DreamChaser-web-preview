@@ -91,8 +91,8 @@ const honors = [
   {
     title: '国家级一等奖',
     titleEn: 'National First Prize',
-    event: 'RoboMaster 2024全国赛',
-    eventEn: 'RoboMaster 2024 National',
+    event: 'RoboMaster 2024中部分区赛',
+    eventEn: 'RoboMaster 2024 Central Regional',
     image: ''
   },
   {

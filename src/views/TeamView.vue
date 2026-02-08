@@ -3,6 +3,16 @@ import { ref } from 'vue'
 
 const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
+// 随机打乱数组的工具函数
+const shuffleArray = <T>(array: T[]): T[] => {
+  const newArr = [...array]
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]]
+  }
+  return newArr
+}
+
 interface Member {
   id: number;
   name: string;
@@ -16,7 +26,7 @@ interface Member {
 
 // 模拟数据 - 实际应从 public/imgs/people 读取或重命名后引用
 // 这里为了演示稳定性，部分使用机器人图或占位图，如果您已在 public/imgs/people 下整理好，可替换路径
-const members = ref<Member[]>([
+const members = ref<Member[]>(shuffleArray([
   { 
     id: 1, name: 'Cheng Zhihong', role: 'Captain', group: 'MANAGEMENT', 
     img: withBase('imgs/people/3%E5%8F%B7-%E6%93%8D%E4%BD%9C%E6%89%8B-%E9%99%88%E5%BF%97%E9%B8%BF-%E5%A4%A7%E4%BA%8C.webp'),
@@ -45,7 +55,7 @@ const members = ref<Member[]>([
     technicalGroup: '机械组',
     description: '机械设计和加工工艺专家，负责机构优化和可靠性保障。创新意识强，方案执行能力强。'
   }
-])
+]))
 
 const activeMember = ref<Member>(members.value[0])
 

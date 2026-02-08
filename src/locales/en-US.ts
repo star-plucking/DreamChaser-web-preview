@@ -3,6 +3,7 @@ export default {
     dashboard: 'Dashboard',
     logs: 'History',
     arsenal: 'Robots',
+    about: 'About',
     crew: 'Crew',
     knowledge: 'Knowledge',
     ipStore: 'Contact Us'

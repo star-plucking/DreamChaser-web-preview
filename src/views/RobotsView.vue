@@ -3,7 +3,17 @@ import { ref } from 'vue'
 
 const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
-const robots = ref([
+// 随机打乱数组的工具函数
+const shuffleArray = <T>(array: T[]): T[] => {
+  const newArr = [...array]
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]]
+  }
+  return newArr
+}
+
+const robots = ref(shuffleArray([
   { 
     id: 1, 
     name: 'HERO | 英雄', 
@@ -53,7 +63,7 @@ const robots = ref([
     img: withBase('imgs/robots/6%E5%8F%B7%E6%97%A0%E4%BA%BA%E6%9C%BA.webp'), 
     features: ['空中打击', '强化火力', '视野侦察']
   },
-])
+]))
 
 const activeRobot = ref<number | null>(null)
 

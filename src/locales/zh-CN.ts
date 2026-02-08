@@ -3,6 +3,7 @@ export default {
     dashboard: '仪表盘',
     logs: '历史',
     arsenal: '机器人介绍',
+    about: '队伍介绍',
     crew: '队伍',
     knowledge: '知识库',
     ipStore: '联系我们'

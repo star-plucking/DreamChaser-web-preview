@@ -20,6 +20,7 @@ const toggleLanguage = () => {
       <router-link to="/">[ {{ t('nav.dashboard') }} ]</router-link>
       <router-link to="/news">[ {{ t('nav.logs') }} ]</router-link>
       <router-link to="/robots">[ {{ t('nav.arsenal') }} ]</router-link>
+      <router-link to="/about">[ {{ t('nav.about') }} ]</router-link>
       <router-link to="/team">[ {{ t('nav.crew') }} ]</router-link>
       <router-link to="/sparks">[ {{ t('nav.knowledge') }} ]</router-link>
       <router-link to="/merch">[ {{ t('nav.ipStore') }} ]</router-link>
